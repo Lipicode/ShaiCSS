@@ -3,13 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <title>ShaiCSS Example</title>
-  <script src="api/shai-css.js"></script>
+  <script src="https://temp.staticsave.com/67eda13784cb2.js"></script>
 </head>
 <body>
   <h1>ShaiCSS Demonstration</h1>
 
-  <div id="app"></div>]
+  <div id="app"></div>
+
+  <!-- Inlined JS usage for ShaiCSS -->
   <script>
+    // 1. Create & apply a custom theme
     const myTheme = new ShaiCSS.Theme({
       name: 'example-theme',
       colors: {
@@ -19,8 +22,10 @@
         text: '#212121'
       }
     });
-    myTheme.apply();
-    const grid = new ShaiCSS.Grid();
+    myTheme.apply(); // Applies theme-related CSS variables to <html>
+
+    // 2. Use the Grid system to create responsive columns
+    const grid = new ShaiCSS.Grid();  // Injects grid CSS if it hasn't been added yet
 
     // Create a container and a row
     const container = grid.createContainer(); 
