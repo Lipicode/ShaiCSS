@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ShaiCSS Example</title>
+  <script src="api/shai-css.js"></script>
+</head>
+<body>
+  <h1>ShaiCSS Demonstration</h1>
+
+  <div id="app"></div>]
+  <script>
+    const myTheme = new ShaiCSS.Theme({
+      name: 'example-theme',
+      colors: {
+        primary: '#4caf50',   // Green
+        secondary: '#ff5722', // Orange
+        background: '#f5f5f5', 
+        text: '#212121'
+      }
+    });
+    myTheme.apply();
+    const grid = new ShaiCSS.Grid();
+
+    // Create a container and a row
+    const container = grid.createContainer(); 
+    const row = grid.createRow();
+
+    // Create two columns (12 wide on xs, each 6 wide on md & larger)
+    const colLeft = grid.createColumn({ xs: 12, md: 6 });
+    const colRight = grid.createColumn({ xs: 12, md: 6 });
+
+    // Populate them with some text
+    colLeft.textContent = 'Left Column Content';
+    colRight.textContent = 'Right Column Content';
+
+    // Append columns to row, then row to container
+    row.appendChild(colLeft);
+    row.appendChild(colRight);
+    container.appendChild(row);
+
+    // Attach container into the DOM
+    const appRoot = document.getElementById('app');
+    appRoot.appendChild(container);
+
+    // 3. Use Styler (CSS-in-JS) to style elements
+    const styler = new ShaiCSS.Styler();
+
+    // Create two style rule sets: one for a header box, another for a content box
+    const { classes } = styler.createStyles({
+      headerBox: {
+        color: '#ffffff',
+        backgroundColor: myTheme.get('colors.primary'),  // Use theme’s primary color
+        padding: '1rem',
+        textAlign: 'center',
+        marginBottom: '1rem'
+      },
+      contentBox: {
+        border: `2px solid ${myTheme.get('colors.secondary')}`, // Secondary color
+        padding: '1rem',
+        borderRadius: '8px',
+        backgroundColor: '#fff'
+      }
+    }, 'my-example');
+
+    // Create a "header box" & insert it above the container
+    const headerEl = document.createElement('div');
+    headerEl.className = classes.headerBox;
+    headerEl.textContent = 'Welcome to ShaiCSS!';
+    document.body.insertBefore(headerEl, document.getElementById('app'));
+
+    // Create a "content box" & append it below our grid container
+    const boxEl = document.createElement('div');
+    boxEl.className = classes.contentBox;
+    boxEl.textContent = 'ShaiCSS helps you streamline theming, layout, and styling without heavy overhead.';
+    appRoot.appendChild(boxEl);
+
+    // 4. Create a flying / moving object (e.g., a ball) using ShaiCSS + keyframes
+    // First, define a style rule for the ball (position, size, animation)
+    const { classes: animationClasses } = styler.createStyles({
+      flyingObject: {
+        width: '50px',
+        height: '50px',
+        backgroundColor: myTheme.get('colors.secondary'),
+        borderRadius: '50%',
+        position: 'absolute',
+        top: '150px',
+        left: '0',
+        // We'll attach a named animation called "flyAnimation"
+        animation: 'flyAnimation 3s infinite alternate ease-in-out'
+      }
+    }, 'my-animation');
+
+    // Next, define the actual keyframes in a separate <style> tag (simple approach)
+    const keyframeStyle = document.createElement('style');
+    keyframeStyle.textContent = `
+      @keyframes flyAnimation {
+        0% {
+          transform: translateX(0) translateY(0);
+        }
+        50% {
+          transform: translateX(300px) translateY(-50px) scale(1.1);
+        }
+        100% {
+          transform: translateX(600px) translateY(0) scale(1);
+        }
+      }
+    `;
+    document.head.appendChild(keyframeStyle);
+
+    // Create the "flying object" element and add it to the page
+    const flyingBall = document.createElement('div');
+    flyingBall.className = animationClasses.flyingObject;
+    document.body.appendChild(flyingBall);
+  </script>
+</body>
+</html>
